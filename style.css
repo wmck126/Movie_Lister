@@ -1,0 +1,25 @@
+.highlight {
+    background-color: yellow
+}
+
+body {
+    background-color: black;
+}
+h1 {
+    color: white;
+    text-align: center;
+}
+h3 {
+    color: white;
+    text-align: center;
+}
+
+.card:hover {
+    background-color: grey;
+}
+#popularityBtn {
+    text-align: center;
+    margin: auto;
+    display: flex;
+    display: grid;
+}
