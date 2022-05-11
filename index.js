@@ -22,6 +22,7 @@ for(let i =200; i < 250; i++) {
     .then(function(obj){
         let a = []
         let b
+        //filters out 404 errors coming from the api
         if(obj.status_code === 34){
             a.push(obj)
             while(a.length > 0){
@@ -60,14 +61,14 @@ for(let i =200; i < 250; i++) {
             descripArr.forEach(function(){
                 descripClass.textContent = cardDescrip
             })
-        //Puts popularity rating into each card **NEEDS REVIEW, why is it only pushing to doc the first popularity and not all**
+        //Puts popularity rating into each card 
             const cardPop = b.popularity
             const popArr = [cardPop]
             const popClass = document.querySelector('.popularity')
             popArr.forEach(function(e){
                 popClass.textContent = 'Popularity rating: ' + e
             })
-        //Sorts popularity
+        //Sorts popularity **Still need to figure out a way to sort cards by popularity on button press**
             const popButton = document.querySelector('#popularityBtn')
             popButton.addEventListener('click', function(){
                 popArr.forEach(function(e){
