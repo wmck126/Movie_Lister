@@ -14,13 +14,13 @@ In order to populate info into the cards I need to:
 */
 
 const keepers = []
+const popKeepers = []
 //Grab info from db
 for(let i =100; i < 155; i++) {
     fetch(`https://api.themoviedb.org/3/movie/${i}?api_key=d4cda60bbc10fd473970ba19b43e2e88&language=en-US`)
     //fetch(`https://api.themoviedb.org/3/movie/153?api_key=d4cda60bbc10fd473970ba19b43e2e88&language=en-US`)
     .then(resp => resp.json())
     .then(function(obj){
-        console.log(obj)
         let a = []
         let b = null
         //filters out 404 errors coming from the api
@@ -36,15 +36,13 @@ for(let i =100; i < 155; i++) {
             keepers.push(obj)
             
         }
-        console.log(keepers)
         const cardArr = []
         const cardLocation = document.querySelector('.col-auto.mb-3')
         const newCard = cardLocation.cloneNode(true)
         newCard.id = `${i}`
         cardLocation.after(newCard)
         cardArr.push(newCard)
-        console.log(cardArr)
-        console.log(newCard)
+
 
 
         const cardPicture = b.backdrop_path
@@ -71,26 +69,30 @@ for(let i =100; i < 155; i++) {
         //Puts popularity rating into each card 
             const cardPop = b.popularity
             const popArr = [cardPop]
-            console.log(popArr)
+            //popArr.push(popKeepers)
             const popClass = document.querySelector('.popularity')
             popArr.forEach(function(e){
                 popClass.textContent = 'Popularity rating: ' + e
             })
-        //Sorts popularity **Still need to figure out a way to sort cards by popularity on button press**
+            //Sorts popularity **Still need to figure out a way to sort cards by popularity on button press**
             const popButton = document.querySelector('#popularityBtn')
-            popButton.addEventListener('click', function(){
-                    const arr = Object.keys(cardPop).map(el =>{
-                        return cardPop[el]
-                    })
-                    arr.sort((e,f) => {
-                        return e - f
-                    })
-                    return arr
-                } 
+            popButton.addEventListener('click', function() {
+                const elements = document.querySelector('.col-auto.mb-3')
+                elements.remove()
                 
-                )
+                // const arr = Object.keys(cardPop).map(el =>{
+                //     return cardPop[el]
+                // })
+                // arr.sort((e,f) => {
+                //     return e - f
+                // })
+                // console.log(arr)
+                // return arr
+            })
             
-        console.log(i)
+                    
+                
+                
             let likeButton = newCard.querySelector('.btn.btn-success')
             let dislikeButton = newCard.querySelector('.btn.btn-danger')
             let body = newCard.querySelector('.card')
@@ -137,8 +139,12 @@ function dislikeFirstCard() {
         return cards.remove()
     })
 }
+function cardSorter() {
+    const sorted = popKeepers.slice().sort((e,f)=>e-f)
+    console.log(sorted)
+}
 
-
+console.log(popKeepers)
 //sortPopularity()
 likeFirstCard()
 dislikeFirstCard()
