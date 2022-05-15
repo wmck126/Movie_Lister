@@ -4,6 +4,9 @@
 
 body {
     background-color: black;
+    align-items: center;
+    padding: 10px
+    
 }
 h1 {
     color: white;
@@ -15,11 +18,16 @@ h3 {
 }
 
 .card:hover {
-    background-color: grey;
+    background-color: lightgrey;
+    transform: scale(1.05)
 }
 #popularityBtn {
     text-align: center;
     margin: auto;
     display: flex;
     display: grid;
+}
+.button-box {
+    text-align:center;
+    margin-top:10px;
 }

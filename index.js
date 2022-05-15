@@ -15,10 +15,10 @@ In order to populate info into the cards I need to:
 
 const keepers = []
 const popKeepers = []
+
 //Grab info from db
-for(let i =100; i < 155; i++) {
+for(let i =100; i < 150; i++) {
     fetch(`https://api.themoviedb.org/3/movie/${i}?api_key=d4cda60bbc10fd473970ba19b43e2e88&language=en-US`)
-    //fetch(`https://api.themoviedb.org/3/movie/153?api_key=d4cda60bbc10fd473970ba19b43e2e88&language=en-US`)
     .then(resp => resp.json())
     .then(function(obj){
         let a = []
@@ -36,22 +36,21 @@ for(let i =100; i < 155; i++) {
             keepers.push(obj)
             
         }
-        const cardArr = []
-        const cardLocation = document.querySelector('.col-auto.mb-3')
-        const newCard = cardLocation.cloneNode(true)
-        newCard.id = `${i}`
-        cardLocation.after(newCard)
-        cardArr.push(newCard)
-
-
-
-        const cardPicture = b.backdrop_path
-        const imgLocation = document.querySelector('.card-img-top')
-        const cardPicArr = [cardPicture]
-            cardPicArr.forEach(function() {
-                imgLocation.src = 'https://image.tmdb.org/t/p/w300' + cardPicArr
-                imgLocation.alt = i
-            })
+        //creates clones of first card
+            const cardArr = []
+            const cardLocation = document.querySelector('.col-auto.mb-3')
+            const newCard = cardLocation.cloneNode(true)
+            newCard.id = `${i}`
+            cardLocation.after(newCard)
+            cardArr.push(newCard)
+        //Pust pictures into each new card
+            const cardPicture = b.backdrop_path
+            const imgLocation = document.querySelector('.card-img-top')
+            const cardPicArr = [cardPicture]
+                cardPicArr.forEach(function() {
+                    imgLocation.src = 'https://image.tmdb.org/t/p/w300' + cardPicArr
+                    imgLocation.alt = i
+                })
         //Puts each title from the fetch request into the card
             const cardTitle = b.original_title
             const titleArr = [cardTitle]
@@ -69,84 +68,119 @@ for(let i =100; i < 155; i++) {
         //Puts popularity rating into each card 
             const cardPop = b.popularity
             const popArr = [cardPop]
-            //popArr.push(popKeepers)
+            popKeepers.push(popArr)
             const popClass = document.querySelector('.popularity')
             popArr.forEach(function(e){
                 popClass.textContent = 'Popularity rating: ' + e
             })
-            //Sorts popularity **Still need to figure out a way to sort cards by popularity on button press**
-            const popButton = document.querySelector('#popularityBtn')
-            popButton.addEventListener('click', function() {
-                const elements = document.querySelector('.col-auto.mb-3')
-                elements.remove()
-                
-                // const arr = Object.keys(cardPop).map(el =>{
-                //     return cardPop[el]
-                // })
-                // arr.sort((e,f) => {
-                //     return e - f
-                // })
-                // console.log(arr)
-                // return arr
-            })
-            
-                    
-                
-                
+        //deletes unecessary cards with no info populating
+            const emptyTitle = newCard.querySelector('.card-title')
+            if (emptyTitle.innerHTML === 'Card title'){
+                return newCard.style.display= 'none'
+            }
+        //Adds functionality to like and dislike buttons
             let likeButton = newCard.querySelector('.btn.btn-success')
             let dislikeButton = newCard.querySelector('.btn.btn-danger')
             let body = newCard.querySelector('.card')
             let likeCount = 0
             //adds and removes highlight class to the cards
-                likeButton.addEventListener('click', likeButtonHandler)
-                function likeButtonHandler(event){
+                likeButton.addEventListener('click', function () {
+                    if (likeCount=== 0){
                         body.classList.add('highlight')
                         likeCount++
-                        console.log(likeCount)
-                        if (likeCount >= 1){
-                            likeButton.addEventListener('click', () => {
-                                body.classList.remove('highlight')
-                                likeCount=0
-                                console.log(likeCount)
-                            })
-                            
+                    }
+                    else{
+                            body.classList.remove('highlight')
+                            likeCount=0
                         }
-                    
-                }
+                })
             dislikeButton.addEventListener('click', function(seeya){
                 return newCard.remove()
             })
-            
+        //On mouseclick show card descriptions
+            const descripLocation = newCard.querySelector('.card-text')
+            const cardLocationNoButton = newCard.querySelector('.card-body')
+            const imgLocationNoButton = newCard.querySelector('.card-img-top')
+            let descripCounter = 0
+            imgLocationNoButton.addEventListener('click', function(g){
+                if (descripCounter === 0){
+                    descripLocation.style.display = 'block'
+                    descripCounter++
+                }
+                else {
+                    descripLocation.style.display = 'none'
+                    descripCounter= 0
+                }
+        })
+            cardLocationNoButton.addEventListener('click', function(g){
+                    if (descripCounter === 0){
+                        descripLocation.style.display = 'block'
+                        descripCounter++
+                        
+                    }
+                    else {
+                        descripLocation.style.display = 'none'
+                        descripCounter= 0
+                        
+                    }
+            })
             }
+            
         )
-    }
-
+        
+}
 //likes the first card displayed, if removed the first card will not be able to be liked
 function likeFirstCard() {
+    let likeCounter = 0
     const likeButtons = document.querySelector('.btn.btn-success')
     const cards = document.querySelector('.col-auto.mb-3')
-    let body = cards.querySelector('.card-body')
+    let body = cards.querySelector('.card')
     likeButtons.addEventListener('click', function() {
-        body.classList.add('highlight')
+        if(likeCounter === 0){
+            body.classList.add('highlight')
+            likeCounter++
+        }
+        else{
+            body.classList.remove('highlight')
+            likeCounter=0
+        }
     })
 }
 //dislikes the first card, same reason as likeFirstCard()
 function dislikeFirstCard() {
     const dislikeButtons = document.querySelector('.btn.btn-danger')
     const cards = document.querySelector('.col-auto.mb-3')
-    let body = cards.querySelector('.card-body')
     dislikeButtons.addEventListener('click', function() {
         return cards.remove()
     })
 }
-function cardSorter() {
-    const sorted = popKeepers.slice().sort((e,f)=>e-f)
-    console.log(sorted)
-}
+function descriptionShow(){
+    const descripLocation = document.querySelector('.card-text')
+    const cardLocationNoButton = document.querySelector('.card-body')
+    const imgLocationNoButton = document.querySelector('.card-img-top')
+    let descripCounter = 0
+            imgLocationNoButton.addEventListener('click', function(g){
+                if (descripCounter === 0){
+                    descripLocation.style.display = 'block'
+                    descripCounter++
+                }
+                else {
+                    descripLocation.style.display = 'none'
+                    descripCounter= 0
+                }
+        })
 
-console.log(popKeepers)
-//sortPopularity()
+            cardLocationNoButton.addEventListener('click', function(g){
+                    if (descripCounter === 0){
+                        descripLocation.style.display = 'block'
+                        descripCounter++
+                    }
+                    else {
+                        descripLocation.style.display = 'none'
+                        descripCounter= 0
+                    }
+            })
+}
 likeFirstCard()
 dislikeFirstCard()
-
-
+descriptionShow()
