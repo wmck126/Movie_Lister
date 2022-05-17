@@ -16,7 +16,7 @@
 <body>
     <div id="heading">
       <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light justify-content-between">
-        <a class="navbar-brand" href="#">MovieLister</a>
+        <a class="navbar-brand" id='logo' href="#">MovieLister</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -51,16 +51,21 @@
       <div class="col-auto mb-3">
         <div class="card" style="width: 18rem;">
           <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
+          
+          
               <h5 class="card-title">Card title</h5>
-              <p class="popularity">Popularity rating: pig</p>
+            
+              
+              <div class="card-body">
+              <p class="popularity" style="display: none">Popularity rating: pig</p>
               <p class="card-text"  style="display: none">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             </div>
-            <div class ="button-box col-lg 12">
+          
+            <div id ='buttons' class ="button-box col-lg 12">
               <a class="btn btn-success">&#128077</a>
               <a class="btn btn-danger">&#128078</a>
-              
             </div>
+          
           
         </div>
       </div>
