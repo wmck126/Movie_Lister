@@ -12,10 +12,12 @@ In order to populate info into the cards I need to:
         -Disliked (make card disappear)
         -clicked, show the movie description
 */
-
+const newCardID = []
+const counter = []
 const keepers = []
 const titleKeepers = []
-
+const popKeepers = []
+const newcardKeepers = []
 //Grab info from db
 for(let i =100; i < 105; i++) {
     fetch(`https://api.themoviedb.org/3/movie/${i}?api_key=d4cda60bbc10fd473970ba19b43e2e88&language=en-US`)
@@ -36,6 +38,8 @@ for(let i =100; i < 105; i++) {
             keepers.push(obj)
             
         }
+        newCardID.push(i)
+        counter.push(i)
         //creates clones of first card
             const cardArr = []
             const cardLocation = document.querySelector('.col-auto.mb-3')
@@ -43,6 +47,7 @@ for(let i =100; i < 105; i++) {
             newCard.id = `${i}`
             cardLocation.after(newCard)
             cardArr.push(newCard)
+            newcardKeepers.push(newCard)
         //Pust pictures into each new card
             const cardPicture = b.backdrop_path
             const imgLocation = document.querySelector('.card-img-top')
@@ -140,6 +145,7 @@ for(let i =100; i < 105; i++) {
 
 
             }
+            
         )
 }
 //likes the first card displayed, if removed the first card will not be able to be liked
@@ -189,13 +195,14 @@ function descriptionShow(){
                         descripCounter++
                     }
                     else {
-                        descripLocation.style.display = console.log(obj)
+                        descripLocation.style.display = 'none'
+                        descripCounter= 0
                     }})
 }
 likeFirstCard()
 dislikeFirstCard()
 descriptionShow()
-
+addIDHash()
 // async function recommendations(recBtn, i){
 //     const secondHeader = document.querySelector('h3')
 //     recBtn.addEventListener('click', function(e){
@@ -204,11 +211,22 @@ descriptionShow()
 //     })
 
 // }
-
+function addIDHash() {
+    setTimeout(function(){
+        //newCardID.shift()
+        for(i = 0; i<counter.length; i++){
+            newCardID[i] = ' #'+newCardID[i]
+        }
+    }, 500)
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('form').addEventListener('submit', (e) =>{
         e.preventDefault()
+        
+        //const cards = document.querySelectorAll(`${newCardID}`)
+        console.log(cards)
+        //cards.forEach(x => x.remove())
         
         const keyword = e.target.searchbar.value
         console.log(keyword)
@@ -311,3 +329,4 @@ document.addEventListener('DOMContentLoaded', () => {
             
         )
 
+console.log(newCardID)
