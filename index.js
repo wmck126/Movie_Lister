@@ -28,7 +28,7 @@ for(let i =3; i < random; i++) {
                 counter.push(i)
             }
             //creates clones of first card
-                const cardLocation = document.querySelector('.col-auto.mb-3')
+                const cardLocation = document.querySelector('#coolcard')
                 const newCard = cardLocation.cloneNode(true)
                 const ezCard = newCard
             function createCard(i){
@@ -109,7 +109,7 @@ async function search() {
     document.querySelector('form').addEventListener('submit', (e) =>{
         e.preventDefault()
 
-        const cards = document.getElementsByClassName('col-auto mb-3')
+        const cards = document.getElementsByClassName('#coolcard')
         while(cards.length > 1){
             cards[1].parentNode.removeChild(cards[1])
         }
@@ -122,7 +122,7 @@ async function search() {
         .then(function (obj){
             const results = obj.results
             for(let i =0; i<results.length; i++){
-                const cardLocation = document.querySelector('.col-auto.mb-3')
+                const cardLocation = document.querySelector('#coolcard')
                 const newCard = cardLocation.cloneNode(true)
                 newCard.id = `${i}`
                 cardLocation.after(newCard)
@@ -141,16 +141,17 @@ async function search() {
             let likeButton = newCard.querySelector('.btn.btn-outline-success')
             let dislikeButton = newCard.querySelector('.btn.btn-outline-danger')
             let body = newCard.querySelector('.card')
-            let likeCount = 0
+            let newCount = 0
+            body.classList.remove('highlight')
             //adds and removes highlight class to the cards
                 likeButton.addEventListener('click', function () {
-                    if (likeCount=== 0){
+                    if (newCount=== 0){
                         body.classList.add('highlight')
-                        likeCount++
+                        newCount++
                     }
                     else{
                             body.classList.remove('highlight')
-                            likeCount=0
+                            newCount=0
                         }
                 })
             dislikeButton.addEventListener('click', function(seeya){
@@ -161,7 +162,7 @@ async function search() {
             const cardLocationNoButton = newCard.querySelector('.card-body')
             const imgLocationNoButton = newCard.querySelector('.card-img-top')
             const popLocation = newCard.querySelector('.popularity')
-
+            likeFirstCard()
             let descripCounter = 0
             imgLocationNoButton.addEventListener('click', function(g){
                 if (descripCounter === 0){
@@ -236,8 +237,9 @@ function desciptions(b){
 function likeFirstCard() {
     let likeCounter = 0
     const likeButtons = document.querySelector('.btn.btn-outline-success')
-    const cards = document.querySelector('.col-auto.mb-3')
+    const cards = document.querySelector('#coolcard')
     let body = cards.querySelector('.card')
+    body.classList.remove('highlight')
     likeButtons.addEventListener('click', function(e) {
         if(likeCounter === 0){
             body.classList.add('highlight')
@@ -253,7 +255,7 @@ function likeFirstCard() {
 //dislikes the first card, same reason as likeFirstCard()
 function dislikeFirstCard() {
     const dislikeButtons = document.querySelector('.btn.btn-outline-danger')
-    const cards = document.querySelector('.col-auto.mb-3')
+    const cards = document.querySelector('#coolcard')
     dislikeButtons.addEventListener('click', function() {
         return cards.remove()
     })
@@ -301,9 +303,13 @@ dislikeFirstCard()
 descriptionShow()
 search()
 homePage()
-
-
-
+const logo = document.querySelector('#logo')
+logo.addEventListener('mouseenter', (e) => {
+    e.target.style.fontSize = '24px'
+})
+logo.addEventListener('mouseleave', (e) => {
+    e.target.style.fontSize = '20px'
+})
 
 
 //working on recommendation functionality
